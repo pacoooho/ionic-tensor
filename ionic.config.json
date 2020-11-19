@@ -1,5 +1,7 @@
 {
   "name": "tensor",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

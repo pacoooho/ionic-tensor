@@ -1,17 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      bodyPix segmentPerson
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+ <h1 (click)="click()">Tensor</h1>
+  <img style="width: 719px;" 
+  id="image" src="assets/gente.png" crossorigin="anonymous"/>
+<canvas   id = "canvas"></canvas>
 </ion-content>
