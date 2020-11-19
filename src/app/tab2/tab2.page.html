@@ -7,8 +7,26 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
- <h1 (click)="click()">Tensor</h1>
-  <img style="width: 719px;" 
-  id="image" src="assets/gente.png" crossorigin="anonymous"/>
-<canvas   id = "canvas"></canvas>
+  <ion-row>
+    <ion-col size="3">
+      <ion-button (click)="click1()" expand="block" fill="clear" shape="round">
+        takePicture
+    </ion-button>
+  </ion-col>
+  
+    <ion-col size="3">
+    <ion-button (click)="click2()" expand="block" fill="clear" shape="round">
+      segment Multi PersonParts
+    </ion-button>
+  </ion-col>
+  
+    <ion-col size="3">
+    <ion-button (click)="click3()" expand="block" fill="clear" shape="round">
+      segment person
+    </ion-button>
+  </ion-col>
+     
+  </ion-row>
+
+  <ion-img [src]="picture"></ion-img>
 </ion-content>
