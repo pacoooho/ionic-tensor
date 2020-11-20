@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Tensor} from '@tensorflow/tfjs';
 import * as bodyPix from '@tensorflow-models/body-pix';
-import '@tensorflow/tfjs-backend-cpu';
+// import '@tensorflow/tfjs-backend-cpu';
 import { BodyPixInput } from '@tensorflow-models/body-pix/dist/types';
  @Component({
   selector: 'app-tab1',
@@ -13,7 +12,7 @@ img: HTMLImageElement;
 f:BodyPixInput;
    constructor() {
 
-     
+      
 
    }
   ngOnInit(){

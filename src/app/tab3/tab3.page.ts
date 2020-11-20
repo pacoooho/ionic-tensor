@@ -1,49 +1,122 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview/ngx';
 import * as bodyPix from '@tensorflow-models/body-pix';
 import '@tensorflow/tfjs-backend-cpu';
-@Component({
+  // https://medium.com/angular-in-depth/create-your-own-image-classifier-with-angular-and-tensorflow-js-5b1bc2391424
+  //https://github.com/tensorflow/tfjs-models/tree/master/facemesh
+
+  @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
-  img: HTMLImageElement;
-  
-  constructor() {
+export class Tab3Page implements OnInit {
+    smallPreview: boolean;
+  IMAGE_PATH: any;
+  colorEffect = 'none';
+  setZoom = 1;
+  flashMode = 'off';
+  isToBack = false;
+  constructor(
+    private cameraPreview: CameraPreview
+  ) { 
+    this.init();
+  }
 
-    
+
+  ngOnInit() {
+
 
   }
- ngOnInit(){
-   this.img = <HTMLImageElement>document.getElementById('image');
-console.log(this.img.width);
+init(){  this.cameraPreview.startCamera({ x: 0, y: 50, width: window.screen.width, height: window.screen.height, camera: "front", tapPhoto: true, previewDrag: false, toBack: true });
+
+
 }
 
-async click(){
-
- //https://towardsdatascience.com/virtual-background-in-webcam-with-body-segmentation-technique-fc8106ca3038
-const net = await bodyPix.load();
-const segmentation = await net.segmentPerson(this.img);
- 
-const maskBackground = true;
-// Convert the segmentation into a mask to darken the background.
-const foregroundColor = {r: 0, g: 0, b: 0, a: 0};
-const backgroundColor = {r: 0, g: 0, b: 0, a: 255};
-const backgroundDarkeningMask = bodyPix.toMask(
-    segmentation, foregroundColor, backgroundColor);
- 
-const opacity = 0.7;
-const maskBlurAmount = 3;
-const flipHorizontal = false;
-
-const canvas = <HTMLCanvasElement>document.getElementById('canvas');
-// Draw the mask image on top of the original image onto a canvas.
-// The colored part image will be drawn semi-transparent, with an opacity of
-// 0.7, allowing for the original image to be visible under.
-bodyPix.drawMask(
-   canvas, this.img, backgroundDarkeningMask, opacity, maskBlurAmount,
-   flipHorizontal);
+ngAfterViewInit(){
+  console.log("ngAfterViewInit");
 }
 
+ async startCameraAbove() {
+    console.log("startCameraAbove");
 
+   await this.cameraPreview.stopCamera().then((res) => {
+      this.isToBack = false;
+      console.log("Stop res ",res);
+
+      this.cameraPreview.startCamera({ x: 80, y: 450, width: 250, height: 300, toBack: false, previewDrag: true, tapPhoto: true });
+    }).catch(er=>{
+      console.log("er",er);
+    })
+  }
+
+ async  startCameraBelow() {
+   
+    console.log("startCameraBelow");
+   await this.cameraPreview.stopCamera().then((res) => {
+      console.log("Stop res",res);
+      this.isToBack = true;
+      this.cameraPreview.startCamera({ x: 0, y: 50, width: window.screen.width, height: window.screen.height, camera: "front", tapPhoto: true, previewDrag: false, toBack: true });
+    }).catch(er=>{
+      console.log("er",er);
+    })
+  }
+
+
+  stopCamera() {
+    this.cameraPreview.stopCamera();
+  }
+
+  takePicture() {
+    this.cameraPreview.takePicture({
+      width: 1280,
+      height: 1280,
+      quality: 85
+    }).then((imageData) => {
+      this.IMAGE_PATH = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
+      this.IMAGE_PATH = 'assets/img/test.jpg';
+    });
+  }
+
+  switchCamera() {
+    this.cameraPreview.switchCamera();
+  }
+
+  show() {
+    this.cameraPreview.show();
+  }
+
+  hide() {
+    this.cameraPreview.hide();
+  }
+
+  changeColorEffect() {
+    this.cameraPreview.setColorEffect(this.colorEffect);
+  }
+
+  changeFlashMode() {
+    this.cameraPreview.setFlashMode(this.flashMode);
+  }
+
+  changeZoom() {
+    this.cameraPreview.setZoom(this.setZoom);
+  }
+
+  showSupportedPictureSizes() {
+    this.cameraPreview.getSupportedPictureSizes().then((sizes) => {
+      console.log(sizes);
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+
+  ngOnDestroy()
+  {
+    console.log("destroy");
+  this.cameraPreview.stopCamera();
+  console.log("stop? ",this.cameraPreview.stopCamera());
+  }
 }

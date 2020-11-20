@@ -9,7 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview/ngx';
-
+ 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -18,7 +18,7 @@ import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, Camer
     StatusBar,
     SplashScreen,
     CameraPreview,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
