@@ -25,6 +25,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "@tensorflow-models/body-pix": "^2.0.5",
+    "@tensorflow-models/facemesh": "0.0.5",
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^2.7.0",
     "@tensorflow/tfjs-backend-cpu": "^2.7.0",

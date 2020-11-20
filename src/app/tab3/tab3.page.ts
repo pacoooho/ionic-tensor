@@ -2,69 +2,85 @@ import { Component, OnInit } from '@angular/core';
 import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview/ngx';
 import * as bodyPix from '@tensorflow-models/body-pix';
 import '@tensorflow/tfjs-backend-cpu';
-  // https://medium.com/angular-in-depth/create-your-own-image-classifier-with-angular-and-tensorflow-js-5b1bc2391424
-  //https://github.com/tensorflow/tfjs-models/tree/master/facemesh
+// https://medium.com/angular-in-depth/create-your-own-image-classifier-with-angular-and-tensorflow-js-5b1bc2391424
+//https://github.com/tensorflow/tfjs-models/tree/master/facemesh
 
-  @Component({
+@Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-    smallPreview: boolean;
+  smallPreview: boolean;
   IMAGE_PATH: any;
   colorEffect = 'none';
   setZoom = 1;
   flashMode = 'off';
   isToBack = false;
+
   constructor(
     private cameraPreview: CameraPreview
-  ) { 
-    this.init();
+  ) {
+    this.cameraPreview.stopCamera().then((res) => {
+      this.isToBack = false;
+      console.log("Stop res ", res);
+
+      this.cameraPreview.startCamera({ x: 80, y: 450, width: 250, height: 300, toBack: false, previewDrag: true, tapPhoto: true });
+    }).catch(er => {
+      console.log("er", er);
+    })
   }
 
 
   ngOnInit() {
-
+    // this.init();
 
   }
-init(){  this.cameraPreview.startCamera({ x: 0, y: 50, width: window.screen.width, height: window.screen.height, camera: "front", tapPhoto: true, previewDrag: false, toBack: true });
 
+  init() {
+    this.cameraPreview.startCamera({ x: 0, y: 0, width: window.screen.width, height: window.screen.height, camera: "front", tapPhoto: true, previewDrag: false, toBack: true });
+  }
 
-}
+  ngAfterViewInit() {
+    console.log("ngAfterViewInit");
+  }
 
-ngAfterViewInit(){
-  console.log("ngAfterViewInit");
-}
-
- async startCameraAbove() {
+  startCameraAbove() {
     console.log("startCameraAbove");
 
-   await this.cameraPreview.stopCamera().then((res) => {
+    this.cameraPreview.stopCamera().then((res) => {
       this.isToBack = false;
-      console.log("Stop res ",res);
+      console.log("Stop res ", res);
 
-      this.cameraPreview.startCamera({ x: 80, y: 450, width: 250, height: 300, toBack: false, previewDrag: true, tapPhoto: true });
-    }).catch(er=>{
-      console.log("er",er);
+      this.cameraPreview.startCamera({
+        x: 80, y: 450, width: 250, height: 300, toBack: false,
+        previewDrag: true, tapPhoto: true
+      });
+    }).catch(er => {
+      this.cameraPreview.stopCamera()
+      console.log("er", er);
     })
   }
 
- async  startCameraBelow() {
-   
+  startCameraBelow() {
+
     console.log("startCameraBelow");
-   await this.cameraPreview.stopCamera().then((res) => {
-      console.log("Stop res",res);
+    this.cameraPreview.stopCamera().then((res) => {
+      console.log("Stop res", res);
       this.isToBack = true;
-      this.cameraPreview.startCamera({ x: 0, y: 50, width: window.screen.width, height: window.screen.height, camera: "front", tapPhoto: true, previewDrag: false, toBack: true });
-    }).catch(er=>{
-      console.log("er",er);
+      this.cameraPreview.startCamera({
+         x: 0, y: 50, width: 250, height: 300, camera: "front",
+          tapPhoto: true, previewDrag: false, toBack: true });
+    }).catch(er => {
+      console.log("er", er);
+      this.cameraPreview.stopCamera()
     })
   }
 
 
   stopCamera() {
     this.cameraPreview.stopCamera();
+
   }
 
   takePicture() {
@@ -113,10 +129,9 @@ ngAfterViewInit(){
   }
 
 
-  ngOnDestroy()
-  {
+  ngOnDestroy() {
     console.log("destroy");
-  this.cameraPreview.stopCamera();
-  console.log("stop? ",this.cameraPreview.stopCamera());
-  }
+    this.cameraPreview.stopCamera();
+    console.log("stop? ", this.cameraPreview.stopCamera());
+  } 
 }
