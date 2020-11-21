@@ -25,7 +25,15 @@ export class Tab3Page implements OnInit {
       this.isToBack = false;
       console.log("Stop res ", res);
 
-      this.cameraPreview.startCamera({ x: 80, y: 450, width: 250, height: 300, toBack: false, previewDrag: true, tapPhoto: true });
+      this.cameraPreview.startCamera({
+        x: 80,
+        y: 450,
+        width: 300,
+        height: 250,
+        toBack: false,
+        previewDrag: true,
+        tapPhoto: true
+      });
     }).catch(er => {
       console.log("er", er);
     })
@@ -69,8 +77,9 @@ export class Tab3Page implements OnInit {
       console.log("Stop res", res);
       this.isToBack = true;
       this.cameraPreview.startCamera({
-         x: 0, y: 50, width: 250, height: 300, camera: "front",
-          tapPhoto: true, previewDrag: false, toBack: true });
+        x: 0, y: 50, width: 250, height: 300, camera: "front",
+        tapPhoto: true, previewDrag: false, toBack: true
+      });
     }).catch(er => {
       console.log("er", er);
       this.cameraPreview.stopCamera()
@@ -133,5 +142,5 @@ export class Tab3Page implements OnInit {
     console.log("destroy");
     this.cameraPreview.stopCamera();
     console.log("stop? ", this.cameraPreview.stopCamera());
-  } 
+  }
 }

@@ -36,7 +36,7 @@ ctx: any;
     private cameraPreview: CameraPreview,
 
   ) {
-    this.init();
+ //this.init();
 
     // this.canvas = <HTMLCanvasElement>document.getElementById('output');
     // this.canvas.width = this.videoWidth;
@@ -46,6 +46,8 @@ ctx: any;
   async ngOnInit() {
     this.modelo = await facemesk.load();
     console.log(this.modelo);
+    await this.init();
+  // await this.cameraPreview.switchCamera();
 
 
 
@@ -54,34 +56,23 @@ ctx: any;
 
     // this.modelo = await facemesk.load().then(res=>{console.log(res);});
   }
-  drawPath(ctx, points, closePath) {
-    const region = new Path2D();
-    region.moveTo(points[0][0], points[0][1]);
-    for (let i = 1; i < points.length; i++) {
-      const point = points[i];
-      region.lineTo(point[0], point[1]);
-    }
-
-    if (closePath) {
-      region.closePath();
-    }
-    ctx.stroke(region);
-  }
-  init() {
+ 
+  async init() {
     const cameraPreviewOpts: CameraPreviewOptions = {
-      x: 0,
-      y: 0,
-      width: 640,
-      height: 400,
-      camera: 'rear',
+      x: 85,
+      y: 450,
+      width: 150,
+      height: 200,
+      // camera: 'rear',
       tapPhoto: true,
       previewDrag: true,
-      toBack: true,
-      alpha: 1
+      toBack: false,
+      alpha:1,
+      
     }
 
     // start camera
-    this.cameraPreview.startCamera(cameraPreviewOpts).then(
+   await this.cameraPreview.startCamera(cameraPreviewOpts).then(
       (res) => {
         console.log(res)
 
@@ -101,7 +92,7 @@ ctx: any;
 
         setTimeout(async () => {
           this.pensando = true;
-          this.img = <HTMLImageElement>document.getElementById('image');
+          this.img = <HTMLImageElement>document.getElementById('image2');
           console.log(this.img.width);
           //const model = await facemesk.load();
           const predictions: AnnotatedPrediction[] = await this.modelo.estimateFaces(this.img);
