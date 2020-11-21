@@ -28,14 +28,18 @@
      
   </ion-row>
  
-  <img [src]="picture" id ="image">
-  <canvas id="output"></canvas>
-  <video id="video" playsinline style="
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    visibility: hidden;
-    width: auto;
-    height: auto;
-    ">
-  </video>
+  
+  <div class="canvas-wrapper">
+    <canvas id="output"></canvas>
+    <img [src]="picture" id ="image">
+    <!-- <video id="video" playsinline style="
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      visibility: hidden;
+      width: auto;
+      height: auto;
+      ">
+    </video> -->
+  </div>
+  <div id="scatter-gl-container"></div>
 </ion-content>
